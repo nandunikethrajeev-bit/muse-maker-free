@@ -5,13 +5,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Download, Mic, Music, Video, Wand2 } from "lucide-react";
+import { Download, Mic, Music, Video, Wand2, RectangleHorizontal } from "lucide-react";
 import { toast } from "sonner";
+import AIAssistant from "./AIAssistant";
+
+interface VideoSettings {
+  aspectRatio?: 'landscape' | 'portrait' | 'square';
+  music?: string;
+  voice?: string;
+  duration?: number;
+}
 
 const VideoGenerator = () => {
   const [prompt, setPrompt] = useState("");
   const [selectedVoice, setSelectedVoice] = useState("");
   const [selectedMusic, setSelectedMusic] = useState("");
+  const [aspectRatio, setAspectRatio] = useState<'landscape' | 'portrait' | 'square'>('landscape');
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -52,14 +61,26 @@ const VideoGenerator = () => {
     { id: "corporate", name: "Corporate Inspiring" },
   ];
 
+  const aspectRatioOptions = [
+    { id: "landscape", name: "Landscape (16:9)", icon: "📱" },
+    { id: "portrait", name: "Portrait (9:16)", icon: "📱" },
+    { id: "square", name: "Square (1:1)", icon: "⬜" },
+  ];
+
+  const handleAISettingsUpdate = (settings: VideoSettings) => {
+    if (settings.aspectRatio) setAspectRatio(settings.aspectRatio);
+    if (settings.music) setSelectedMusic(settings.music);
+    if (settings.voice) setSelectedVoice(settings.voice);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-6 py-16">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold mb-4">Create Your Video</h2>
         <p className="text-muted-foreground text-lg">Enter your prompt and customize the settings</p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-3 gap-8">
         {/* Input Section */}
         <Card className="card-cosmic">
           <CardHeader>
@@ -120,6 +141,29 @@ const VideoGenerator = () => {
               </Select>
             </div>
 
+            {/* Aspect Ratio Selection */}
+            <div>
+              <label className="block text-sm font-medium mb-2 flex items-center">
+                <RectangleHorizontal className="w-4 h-4 mr-1 text-primary" />
+                Video Format
+              </label>
+              <Select value={aspectRatio} onValueChange={(value: 'landscape' | 'portrait' | 'square') => setAspectRatio(value)}>
+                <SelectTrigger className="input-cosmic">
+                  <SelectValue placeholder="Select aspect ratio" />
+                </SelectTrigger>
+                <SelectContent>
+                  {aspectRatioOptions.map((ratio) => (
+                    <SelectItem key={ratio.id} value={ratio.id}>
+                      <span className="flex items-center">
+                        <span className="mr-2">{ratio.icon}</span>
+                        {ratio.name}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Generate Button */}
             <Button 
               onClick={handleGenerate}
@@ -140,7 +184,10 @@ const VideoGenerator = () => {
           <CardContent>
             {isGenerating ? (
               <div className="space-y-4">
-                <div className="aspect-video bg-muted/20 rounded-lg flex items-center justify-center">
+                <div className={`bg-muted/20 rounded-lg flex items-center justify-center ${
+                  aspectRatio === 'portrait' ? 'aspect-[9/16]' : 
+                  aspectRatio === 'square' ? 'aspect-square' : 'aspect-video'
+                }`}>
                   <div className="text-center">
                     <div className="animate-pulse-glow w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4"></div>
                     <p className="text-muted-foreground">Generating your video...</p>
@@ -156,10 +203,16 @@ const VideoGenerator = () => {
               </div>
             ) : progress === 100 ? (
               <div className="space-y-4">
-                <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center border border-primary/20">
+                <div className={`bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center border border-primary/20 ${
+                  aspectRatio === 'portrait' ? 'aspect-[9/16]' : 
+                  aspectRatio === 'square' ? 'aspect-square' : 'aspect-video'
+                }`}>
                   <div className="text-center">
                     <Video className="w-12 h-12 text-primary mx-auto mb-2" />
                     <p className="font-medium">Video Ready!</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {aspectRatio} format
+                    </p>
                   </div>
                 </div>
                 <Button className="btn-accent w-full">
@@ -168,15 +221,22 @@ const VideoGenerator = () => {
                 </Button>
               </div>
             ) : (
-              <div className="aspect-video bg-muted/10 rounded-lg flex items-center justify-center border border-dashed border-border">
+              <div className={`bg-muted/10 rounded-lg flex items-center justify-center border border-dashed border-border ${
+                aspectRatio === 'portrait' ? 'aspect-[9/16]' : 
+                aspectRatio === 'square' ? 'aspect-square' : 'aspect-video'
+              }`}>
                 <div className="text-center text-muted-foreground">
                   <Video className="w-12 h-12 mx-auto mb-2 opacity-50" />
                   <p>Your video will appear here</p>
+                  <p className="text-sm mt-1">{aspectRatio} format</p>
                 </div>
               </div>
             )}
           </CardContent>
         </Card>
+
+        {/* AI Assistant */}
+        <AIAssistant onVideoSettingsUpdate={handleAISettingsUpdate} />
       </div>
     </div>
   );
