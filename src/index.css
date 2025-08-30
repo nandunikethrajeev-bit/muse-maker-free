@@ -1,96 +1,45 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* MuseMaker Design System - Cosmic Purple Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Core Colors - Purple Cosmic Theme */
+    --background: 260 15% 8%;
+    --foreground: 260 10% 95%;
+    --muted: 260 15% 12%;
+    --muted-foreground: 260 10% 65%;
+    
+    /* Brand Colors */
+    --primary: 270 100% 70%;
+    --primary-foreground: 260 15% 8%;
+    --secondary: 260 15% 15%;
+    --secondary-foreground: 260 10% 90%;
+    
+    /* Accent Colors */
+    --accent: 185 100% 65%;
+    --accent-foreground: 260 15% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 260 10% 95%;
+    
+    /* UI Elements */
+    --border: 260 15% 20%;
+    --input: 260 15% 15%;
+    --ring: 270 100% 70%;
+    --card: 260 15% 10%;
+    --card-foreground: 260 10% 95%;
+    --popover: 260 15% 12%;
+    --popover-foreground: 260 10% 95%;
+    
+    /* Custom Gradients */
+    --gradient-cosmic: linear-gradient(135deg, hsl(270, 100%, 70%) 0%, hsl(290, 100%, 60%) 50%, hsl(320, 100%, 70%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(185, 100%, 65%) 0%, hsl(200, 100%, 70%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(260, 15%, 8%) 0%, hsl(270, 30%, 15%) 50%, hsl(280, 40%, 20%) 100%);
+    
+    --radius: 1rem;
   }
 }
 
@@ -98,8 +47,104 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    background: var(--gradient-hero);
+    min-height: 100vh;
   }
+  
+  /* Glassmorphism Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Cosmic Glow Effects */
+  .cosmic-glow {
+    box-shadow: 0 0 30px hsla(270, 100%, 70%, 0.3);
+  }
+  
+  .accent-glow {
+    box-shadow: 0 0 20px hsla(185, 100%, 65%, 0.3);
+  }
+}
+
+@layer components {
+  /* Hero Section Styles */
+  .hero-title {
+    @apply text-6xl md:text-7xl font-bold;
+    background: var(--gradient-cosmic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px hsla(270, 100%, 70%, 0.5);
+  }
+  
+  .hero-subtitle {
+    @apply text-xl md:text-2xl text-muted-foreground;
+  }
+  
+  /* Button Variants */
+  .btn-cosmic {
+    @apply px-8 py-4 rounded-2xl font-semibold text-primary-foreground transition-all duration-300;
+    background: var(--gradient-cosmic);
+    border: 1px solid hsla(270, 100%, 70%, 0.3);
+  }
+  
+  .btn-cosmic:hover {
+    @apply cosmic-glow transform -translate-y-1;
+    box-shadow: 0 0 40px hsla(270, 100%, 70%, 0.5), 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btn-accent {
+    @apply px-6 py-3 rounded-xl font-medium text-accent-foreground transition-all duration-300;
+    background: var(--gradient-accent);
+    border: 1px solid hsla(185, 100%, 65%, 0.3);
+  }
+  
+  .btn-accent:hover {
+    @apply accent-glow transform -translate-y-0.5;
+  }
+  
+  /* Card Styles */
+  .card-cosmic {
+    @apply glass rounded-2xl p-6 border-border transition-all duration-300;
+  }
+  
+  .card-cosmic:hover {
+    @apply cosmic-glow border-primary/30;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  /* Input Styles */
+  .input-cosmic {
+    @apply glass rounded-xl px-4 py-3 border-border text-foreground placeholder:text-muted-foreground;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  
+  .input-cosmic:focus {
+    @apply ring-2 ring-primary/50 border-primary/50 outline-none;
+    box-shadow: 0 0 20px hsla(270, 100%, 70%, 0.2);
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsla(270, 100%, 70%, 0.3); }
+  50% { box-shadow: 0 0 40px hsla(270, 100%, 70%, 0.6); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
